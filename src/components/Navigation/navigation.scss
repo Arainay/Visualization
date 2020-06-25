@@ -1,0 +1,39 @@
+.navigation {
+  position: relative;
+
+  &__active {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: .2rem;
+    background-color: lightskyblue;
+    transition: left .3s linear, width .3s linear;
+  }
+
+  &__inner {
+    margin-bottom: 1.5rem;
+  }
+
+  &__pages {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    &-item {
+      margin-right: 1rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__link {
+    display: block;
+    padding: .5rem;
+    text-decoration: none;
+  }
+}

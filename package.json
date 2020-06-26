@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.10.2",
+    "d3-array": "^2.4.0",
     "d3-axis": "^1.0.12",
     "d3-force": "^2.0.1",
     "d3-format": "^1.4.4",

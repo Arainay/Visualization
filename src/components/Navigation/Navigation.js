@@ -25,12 +25,17 @@ const Navigation = () => {
         </li>
         <li className="navigation__pages-item">
           <NavLink to="/bar" activeClassName="navigation__link--active" className="navigation__link">
-            Bar
+            Bar (COVID-19)
           </NavLink>
         </li>
         <li className="navigation__pages-item">
           <NavLink to="/scatter-plot" activeClassName="navigation__link--active" className="navigation__link">
             Scatter
+          </NavLink>
+        </li>
+        <li className="navigation__pages-item">
+          <NavLink to="/line" activeClassName="navigation__link--active" className="navigation__link">
+            Line (Moscow temperature)
           </NavLink>
         </li>
       </ul>

@@ -54,6 +54,7 @@ const BarChart = () => {
     // eslint-disable-next-line no-unused-vars
     const { country, ...counters } = !name || name === 'All' ? total : data.find(item => item.country === name);
     const counterKeys = Object.keys(counters);
+    const counterEntries = Object.entries(counters);
 
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
@@ -64,28 +65,33 @@ const BarChart = () => {
       .padding(0.05);
 
     const yScale = scaleLinear()
-      .domain([0, total.confirmed])
+      .domain([0, counters.confirmed])
       .range([innerHeight, 0]);
 
     const xAxis = axisBottom(xScale);
     const yAxis = axisLeft(yScale)
-      .tickFormat(format(".1s"));
+      .tickFormat(format(".2s"));
 
-    g.append('g')
+    const rectsSelection = g.selectAll('rect');
+    const xAxisSelection = g.select('#x-axis');
+    const yAxisSelection = g.select('#y-axis');
+    const linesSelection = g.select('#lines');
+
+    xAxisSelection
       .attr('transform', `translate(0, ${innerHeight})`)
       .call(xAxis)
       .selectAll('.tick line')
         .remove();
 
-    g.append('g')
+    yAxisSelection
       .call(yAxis)
       .call(updateTickView);
 
-    g.selectAll('rect')
-      .data([counters.confirmed, counters.recovered, counters.deaths])
+    rectsSelection
+      .data(counterEntries)
         .enter()
         .append('rect')
-          .attr('x', (_, id) => xScale(counterKeys[id]))
+          .attr('x', d => xScale(d[0]))
           .attr('y', innerHeight)
           .attr('width', xScale.bandwidth())
           .style(
@@ -95,12 +101,22 @@ const BarChart = () => {
           .transition()
             .delay((_, id) => id * 700)
             .duration(700)
-            .attr('y', d => yScale(d))
-            .attr('height', d => innerHeight - yScale(d));
+            .attr('y', d => yScale(d[1]))
+            .attr('height', d => innerHeight - yScale(d[1]));
 
+    // update
+    rectsSelection
+      .transition()
+        .duration(700)
+        .attr('y', d => yScale(d[1]))
+        .attr('height', d => innerHeight - yScale(d[1]));
+
+    rectsSelection
+      .exit()
+      .remove();
 
     // add lines
-    g.append('g')
+    linesSelection
       .call(
         axisLeft(yScale)
           .ticks(yScale.ticks().length)
@@ -119,7 +135,6 @@ const BarChart = () => {
   return (
     <div style={{ display: 'grid' }}>
       <select
-        style={{ display: 'none' }}
         id="countries"
         name="countries"
         value={country}
@@ -131,7 +146,11 @@ const BarChart = () => {
         ))}
       </select>
       <Svg ref={svgRef}>
-        <g id="data" transform={`translate(${margin.left}, ${margin.top})`}/>
+        <g id="data" transform={`translate(${margin.left}, ${margin.top})`}>
+          <g id="x-axis"/>
+          <g id="y-axis"/>
+          <g id="lines"/>
+        </g>
       </Svg>
     </div>
   );

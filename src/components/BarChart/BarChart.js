@@ -87,7 +87,7 @@ const BarChart = () => {
       .call(yAxis)
       .call(updateTickView);
 
-    // enter
+    // enter + update
     rectsSelection
       .data(counterEntries)
         .enter()
@@ -101,16 +101,19 @@ const BarChart = () => {
           )
           .transition()
             .delay((_, id) => id * 700)
+            .selection()
+        .merge(rectsSelection)
+          .transition()
             .duration(700)
             .attr('y', d => yScale(d[1]))
             .attr('height', d => innerHeight - yScale(d[1]));
 
     // update
-    rectsSelection
-      .transition()
-        .duration(700)
-        .attr('y', d => yScale(d[1]))
-        .attr('height', d => innerHeight - yScale(d[1]));
+    // rectsSelection
+    //   .transition()
+    //     .duration(700)
+    //     .attr('y', d => yScale(d[1]))
+    //     .attr('height', d => innerHeight - yScale(d[1]));
 
     // exit
     rectsSelection

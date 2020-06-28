@@ -65,7 +65,7 @@ const BarChart = () => {
       .padding(0.05);
 
     const yScale = scaleLinear()
-      .domain([0, counters.confirmed])
+      .domain([0, counters.confirmed + counters.deaths / 2])
       .range([innerHeight, 0]);
 
     const xAxis = axisBottom(xScale);
@@ -87,6 +87,7 @@ const BarChart = () => {
       .call(yAxis)
       .call(updateTickView);
 
+    // enter
     rectsSelection
       .data(counterEntries)
         .enter()
@@ -111,6 +112,7 @@ const BarChart = () => {
         .attr('y', d => yScale(d[1]))
         .attr('height', d => innerHeight - yScale(d[1]));
 
+    // exit
     rectsSelection
       .exit()
       .remove();

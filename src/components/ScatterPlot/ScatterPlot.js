@@ -69,7 +69,8 @@ const ScatterPlot = () => {
         .attr('cx', d => xScale(d.weight))
         .attr('cy', d => yScale(d.height))
         .attr('r', 10)
-        .style('fill', d => d.gender === 'Male' ? 'rgba(173, 216, 230, 0.5)' : 'rgba(255, 192, 203, 0.5)');
+        .attr('fill', d => d.gender === 'Male' ? 'rgba(173, 216, 230, 0.5)' : 'rgba(255, 192, 203, 0.5)')
+        .attr('stroke', d => d.gender === 'Male' ? 'rgb(173, 216, 230)' : 'rgb(255, 192, 203)');
 
     xLinesSelection
       .call(

@@ -92,7 +92,7 @@ const BarChart = () => {
 
     // enter + update
     rectsSelection
-      .data(counterEntries)
+      .data(counterEntries, d => d[0])
         .enter()
         .append('rect')
           .attr('x', d => xScale(d[0]))

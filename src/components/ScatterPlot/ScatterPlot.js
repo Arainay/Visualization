@@ -35,8 +35,9 @@ const ScatterPlot = () => {
     const circlesSelection = topLevelGroupSelection.selectAll('circle');
     const xAxisSelection = topLevelGroupSelection.select('#x-axis');
     const yAxisSelection = topLevelGroupSelection.select('#y-axis');
-    const xLinesSelection = topLevelGroupSelection.select('#x-lines');
-    const yLinesSelection = topLevelGroupSelection.select('#y-lines');
+    const linesSelection = topLevelGroupSelection.select('#lines');
+    const xLinesSelection = linesSelection.select('#x-lines');
+    const yLinesSelection = linesSelection.select('#y-lines');
 
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
@@ -76,10 +77,7 @@ const ScatterPlot = () => {
           .ticks(xScale.ticks().length)
           .tickSize(height - margin.top - margin.bottom)
           .tickFormat('')
-      )
-      .call(updateTickView)
-      .select('.domain')
-        .remove();
+      );
 
     yLinesSelection
       .call(
@@ -87,7 +85,10 @@ const ScatterPlot = () => {
           .ticks(yScale.ticks().length)
           .tickSize(-width + margin.left + margin.right)
           .tickFormat('')
-      )
+      );
+
+    linesSelection
+      .selectAll('g')
       .call(updateTickView)
       .select('.domain')
         .remove();
@@ -98,8 +99,10 @@ const ScatterPlot = () => {
       <g id="data" transform={`translate(${margin.left}, ${margin.top})`}>
         <g id="x-axis"/>
         <g id="y-axis"/>
-        <g id="x-lines"/>
-        <g id="y-lines"/>
+        <g id="lines">
+          <g id="x-lines"/>
+          <g id="y-lines"/>
+        </g>
       </g>
     </Svg>
   );

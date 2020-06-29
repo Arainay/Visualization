@@ -42,15 +42,20 @@ const BarChart = () => {
     left: 50
   };
 
-  const updateTickView = elem =>
-    elem.selectAll(".tick line")
+  const updateTickView = selection =>
+    selection.selectAll(".tick line")
       .attr("stroke-opacity", 0.5)
       .attr("stroke-dasharray", 2.2);
 
   const draw = name => {
     const { height, width } = svgRef.current.getBoundingClientRect();
-    const svg = select(svgRef.current);
-    const g = svg.select('#data');
+
+    const svgSelection = select(svgRef.current);
+    const topLevelGroupSelection = svgSelection.select('#data');
+    const rectsSelection = topLevelGroupSelection.selectAll('rect');
+    const xAxisSelection = topLevelGroupSelection.select('#x-axis');
+    const yAxisSelection = topLevelGroupSelection.select('#y-axis');
+    const linesSelection = topLevelGroupSelection.select('#lines');
 
     // eslint-disable-next-line no-unused-vars
     const { country, ...counters } = !name || name === 'All' ? total : data.find(item => item.country === name);
@@ -72,11 +77,6 @@ const BarChart = () => {
     const xAxis = axisBottom(xScale);
     const yAxis = axisLeft(yScale)
       .tickFormat(format(".2s"));
-
-    const rectsSelection = g.selectAll('rect');
-    const xAxisSelection = g.select('#x-axis');
-    const yAxisSelection = g.select('#y-axis');
-    const linesSelection = g.select('#lines');
 
     const transitionWithDelay = transition().delay(700);
 

@@ -3,6 +3,7 @@ import { select } from 'd3-selection';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
+import { transition } from 'd3-transition';
 import Svg from '@app/components/Svg';
 import dataset from './data/dataset.csv';
 
@@ -77,6 +78,8 @@ const BarChart = () => {
     const yAxisSelection = g.select('#y-axis');
     const linesSelection = g.select('#lines');
 
+    const transitionWithDelay = transition().delay(700);
+
     xAxisSelection
       .attr('transform', `translate(0, ${innerHeight})`)
       .call(xAxis)
@@ -99,8 +102,7 @@ const BarChart = () => {
             'fill',
             (_, id) => id === 0 ? 'rgba(0, 0, 255, .5)' : id === 1 ? 'rgba(0, 255, 0, .5)' : 'rgba(255, 0, 0, .5)'
           )
-          .transition()
-            .delay((_, id) => id * 700)
+          .transition(transitionWithDelay)
             .selection()
         .merge(rectsSelection)
           .transition()

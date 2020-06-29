@@ -16,11 +16,13 @@ const ScatterPlot = () => {
     left: 50
   };
 
-  const data = dataset.map(item => ({
-    gender: item.Gender,
-    height: item.Height,
-    weight: item.Weight
-  }));
+  const data = dataset
+    .filter((_, id) => id % 50 === 0)
+    .map(item => ({
+      gender: item.Gender,
+      height: item.Height,
+      weight: item.Weight
+    }));
 
   const updateTickView = selection =>
     selection.selectAll(".tick line")

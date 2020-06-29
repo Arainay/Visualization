@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import SmileFace from '@app/components/SmileFace';
-import BarChart from '@app/components/BarChart';
-import ScatterPlot from '@app/components/ScatterPlot';
-import Line from '@app/components/Line';
+
+const SmileFace = lazy(() => import(/* webpackPrefetch: true */ '@app/components/SmileFace'));
+const BarChart = lazy(() => import(/* webpackPrefetch: true */ '@app/components/BarChart'));
+const ScatterPlot = lazy(() => import(/* webpackPrefetch: true */ '@app/components/ScatterPlot'));
+const Line = lazy(() => import(/* webpackPrefetch: true */ '@app/components/Line'));
 
 const Routes = () => (
-  <Switch>
-    <Route path="/smile">
-      <SmileFace/>
-    </Route>
-    <Route path="/bar">
-      <BarChart/>
-    </Route>
-    <Route path="/scatter-plot">
-      <ScatterPlot/>
-    </Route>
-    <Route path="/line">
-      <Line/>
-    </Route>
-    <Redirect to="/smile"/>
-  </Switch>
+  <Suspense fallback={<div>Loading...</div>}>
+    <Switch>
+      <Route exact path="/">
+        <SmileFace/>
+      </Route>
+      <Route path="/bar">
+        <BarChart/>
+      </Route>
+      <Route path="/scatter-plot">
+        <ScatterPlot/>
+      </Route>
+      <Route path="/line">
+        <Line/>
+      </Route>
+      <Redirect to="/bar"/>
+    </Switch>
+  </Suspense>
 );
 
 export default Routes;

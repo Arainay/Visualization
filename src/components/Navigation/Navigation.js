@@ -19,7 +19,7 @@ const Navigation = () => {
     <nav className="navigation navigation__inner">
       <ul className="navigation__pages">
         <li className="navigation__pages-item">
-          <NavLink to="/smile" activeClassName="navigation__link--active" className="navigation__link">
+          <NavLink exact to="/" activeClassName="navigation__link--active" className="navigation__link">
             Smile
           </NavLink>
         </li>

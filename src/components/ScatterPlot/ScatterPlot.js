@@ -1,15 +1,106 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { select } from 'd3-selection';
+import { scaleLinear } from 'd3-scale';
+import { extent } from 'd3-array';
 import Svg from '@app/components/Svg';
-import dataset from './data/auto-mpg.csv';
+import dataset from './data/weight-height.csv';
 
 const ScatterPlot = () => {
   const svgRef = useRef(null);
 
-  console.log(dataset);
+  const margin = {
+    top: 20,
+    right: 20,
+    bottom: 20,
+    left: 50
+  };
+
+  const data = dataset.map(item => ({
+    gender: item.Gender,
+    height: item.Height,
+    weight: item.Weight
+  }));
+
+  const updateTickView = selection =>
+    selection.selectAll(".tick line")
+      .attr("stroke-opacity", 0.5)
+      .attr("stroke-dasharray", 2.2);
+
+  useEffect(() => {
+    const { height, width } = svgRef.current.getBoundingClientRect();
+
+    const svgSelection = select(svgRef.current);
+    const topLevelGroupSelection = svgSelection.select('#data');
+    const circlesSelection = topLevelGroupSelection.selectAll('circle');
+    const xAxisSelection = topLevelGroupSelection.select('#x-axis');
+    const yAxisSelection = topLevelGroupSelection.select('#y-axis');
+    const xLinesSelection = topLevelGroupSelection.select('#x-lines');
+    const yLinesSelection = topLevelGroupSelection.select('#y-lines');
+
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+
+    const xScale = scaleLinear()
+      .domain(extent(data, d => d.weight))
+      .range([0, innerWidth]);
+
+    const yScale = scaleLinear()
+      .domain(extent(data, d => d.height))
+      .range([innerHeight, 0]);
+
+    const xAxis = axisBottom(xScale);
+    const yAxis = axisLeft(yScale);
+
+    xAxisSelection
+      .attr('transform', `translate(0, ${innerHeight})`)
+      .call(xAxis)
+      .call(updateTickView);
+
+    yAxisSelection
+      .call(yAxis)
+      .call(updateTickView);
+
+    circlesSelection
+      .data(data)
+      .enter()
+      .append('circle')
+        .attr('cx', d => xScale(d.weight))
+        .attr('cy', d => yScale(d.height))
+        .attr('r', 10)
+        .style('fill', d => d.gender === 'Male' ? 'rgba(173, 216, 230, 0.5)' : 'rgba(255, 192, 203, 0.5)');
+
+    xLinesSelection
+      .call(
+        axisBottom(xScale)
+          .ticks(xScale.ticks().length)
+          .tickSize(height - margin.top - margin.bottom)
+          .tickFormat('')
+      )
+      .call(updateTickView)
+      .select('.domain')
+        .remove();
+
+    yLinesSelection
+      .call(
+        axisLeft(yScale)
+          .ticks(yScale.ticks().length)
+          .tickSize(-width + margin.left + margin.right)
+          .tickFormat('')
+      )
+      .call(updateTickView)
+      .select('.domain')
+        .remove();
+  }, []);
 
   return (
     <Svg ref={svgRef}>
-
+      <g id="data" transform={`translate(${margin.left}, ${margin.top})`}>
+        <g id="x-axis"/>
+        <g id="y-axis"/>
+        <g id="x-lines"/>
+        <g id="y-lines"/>
+      </g>
     </Svg>
   );
 };

@@ -30,7 +30,7 @@ const Navigation = () => {
         </li>
         <li className="navigation__pages-item">
           <NavLink to="/scatter-plot" activeClassName="navigation__link--active" className="navigation__link">
-            Scatter
+            Scatter (Wight to Height)
           </NavLink>
         </li>
         <li className="navigation__pages-item">

@@ -6,6 +6,7 @@ import { format } from 'd3-format';
 import { transition } from 'd3-transition';
 import Svg from '@app/components/Svg';
 import dataset from './data/dataset.csv';
+import './bar-chart.scss';
 
 const total = {
   country: 'All',
@@ -98,13 +99,12 @@ const BarChart = () => {
           .attr('x', d => xScale(d[0]))
           .attr('y', innerHeight)
           .attr('width', xScale.bandwidth())
-          .style(
-            'fill',
-            (_, id) => id === 0 ? 'rgba(0, 0, 255, .5)' : id === 1 ? 'rgba(0, 255, 0, .5)' : 'rgba(255, 0, 0, .5)'
-          )
+          .attr('class', d => `bar-chart__rect bar-chart__rect--${d[0]}`)
           .transition(transitionWithDelay)
             .selection()
         .merge(rectsSelection)
+          .on('mouseover', d => { console.log(`${d[0]}: ${d[1]}`); })
+          .on('mouseout', d => { console.log(d); })
           .transition()
             .duration(700)
             .attr('y', d => yScale(d[1]))
@@ -152,7 +152,7 @@ const BarChart = () => {
           <option key={item.country} value={item.country}>{item.country}</option>
         ))}
       </select>
-      <Svg ref={svgRef}>
+      <Svg ref={svgRef} className="bar-chart">
         <g id="data" transform={`translate(${margin.left}, ${margin.top})`}>
           <g id="x-axis"/>
           <g id="y-axis"/>

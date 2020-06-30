@@ -1,0 +1,38 @@
+$confirmed-color: rgba(0, 0, 255, .5);
+$recovered-color: rgba(0, 255, 0, .5);
+$deaths-color: rgba(255, 0, 0, .5);
+
+.bar-chart {
+
+  &__rect {
+    stroke: none;
+    stroke-width: 2;
+
+    &--confirmed {
+      fill: $confirmed-color;
+
+      &:hover {
+        stroke: $confirmed-color;
+      }
+    }
+
+
+    &--recovered {
+      fill: $recovered-color;
+
+      &:hover {
+        stroke: $recovered-color;
+      }
+    }
+
+
+    &--deaths {
+      fill: $deaths-color;
+
+      &:hover {
+        stroke: $deaths-color;
+      }
+    }
+
+  }
+}

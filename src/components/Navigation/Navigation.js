@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { PAGES } from '@app/helpers';
 import './navigation.scss';
 
 const Navigation = () => {
@@ -19,23 +20,49 @@ const Navigation = () => {
     <nav className="navigation navigation__inner">
       <ul className="navigation__pages">
         <li className="navigation__pages-item">
-          <NavLink exact to="/" activeClassName="navigation__link--active" className="navigation__link">
+          <NavLink
+            exact
+            to={PAGES.MAIN}
+            activeClassName="navigation__link--active"
+            className="navigation__link"
+          >
             Smile
           </NavLink>
         </li>
         <li className="navigation__pages-item">
-          <NavLink to="/bar" activeClassName="navigation__link--active" className="navigation__link">
+          <NavLink
+            to={PAGES.BAR_CHART}
+            activeClassName="navigation__link--active"
+            className="navigation__link"
+          >
             Bar (COVID-19)
           </NavLink>
         </li>
         <li className="navigation__pages-item">
-          <NavLink to="/scatter-plot" activeClassName="navigation__link--active" className="navigation__link">
+          <NavLink
+            to={PAGES.SCATTER_PLOT}
+            activeClassName="navigation__link--active"
+            className="navigation__link"
+          >
             Scatter (Wight to Height)
           </NavLink>
         </li>
         <li className="navigation__pages-item">
-          <NavLink to="/line" activeClassName="navigation__link--active" className="navigation__link">
+          <NavLink
+            to={PAGES.LINE}
+            activeClassName="navigation__link--active"
+            className="navigation__link"
+          >
             Line (Moscow temperature)
+          </NavLink>
+        </li>
+        <li className="navigation__pages-item">
+          <NavLink
+            to={PAGES.WORLD_MAP}
+            activeClassName="navigation__link--active"
+            className="navigation__link"
+          >
+            World Map
           </NavLink>
         </li>
       </ul>

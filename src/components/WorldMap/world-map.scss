@@ -9,5 +9,9 @@
     fill: #3ed43e;
     stroke: #000;
     stroke-opacity: .5;
+
+    &:hover {
+      fill: #ff0000;
+    }
   }
 }

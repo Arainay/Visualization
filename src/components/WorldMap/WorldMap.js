@@ -33,7 +33,9 @@ const WorldMap = () => {
           .enter()
           .append('path')
             .attr('d', pathGenerator)
-            .attr('class', 'world-map__country');
+            .attr('class', 'world-map__country')
+            .append('title')
+              .text(d => d.properties.name);
       })
       .catch(error => {
         console.error(error);

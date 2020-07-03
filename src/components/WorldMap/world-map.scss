@@ -1,0 +1,10 @@
+.world-map {
+  max-width: 1000px;
+  background-color: #0083ff;
+
+  &__path {
+    fill: #3ed43e;
+    stroke: #000;
+    stroke-opacity: .5;
+  }
+}

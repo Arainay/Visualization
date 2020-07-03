@@ -1,8 +1,11 @@
 .world-map {
-  max-width: 1000px;
-  background-color: #0083ff;
+  max-width: 960px;
 
-  &__path {
+  &__sphere {
+    fill: #0083ff;
+  }
+
+  &__country {
     fill: #3ed43e;
     stroke: #000;
     stroke-opacity: .5;

@@ -23,25 +23,28 @@ const WorldMap = () => {
         const pathGenerator = geoPath().projection(projection);
 
         const svgSelection = select(svgRef.current);
-        const pathsSelection = svgSelection.selectAll('path');
+        const countriesSelection = svgSelection.select('#countries');
+        const pathsSelection = countriesSelection.selectAll('path');
+
+        svgSelection.select('#sphere')
+          .attr('d', pathGenerator({ type: 'Sphere' }));
 
         pathsSelection.data(countries.features)
           .enter()
           .append('path')
             .attr('d', pathGenerator)
-            .attr('class', 'world-map__path');
+            .attr('class', 'world-map__country');
       })
       .catch(error => {
         console.error(error);
       });
-
-
-
-
   }, []);
 
   return (
-    <Svg ref={svgRef} className="world-map"/>
+    <Svg ref={svgRef} className="world-map">
+      <path id="sphere" className="world-map__sphere"/>
+      <g id="countries"/>
+    </Svg>
   );
 };
 

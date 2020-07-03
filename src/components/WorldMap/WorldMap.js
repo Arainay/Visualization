@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { geoMercator, geoPath } from 'd3-geo';
+import { feature } from 'topojson-client';
+import { geoPath, geoNaturalEarth1 } from 'd3-geo';
 import { select } from 'd3-selection';
 import Svg from '@app/components/Svg';
+import './world-map.scss';
 
 const WorldMap = () => {
   const svgRef = useRef(null);
@@ -15,18 +17,19 @@ const WorldMap = () => {
         }
       })
       .then(data => {
-        console.log(data);
+        const countries = feature(data, data.objects.countries);
 
-
-
-        const projection = geoMercator();
+        const projection = geoNaturalEarth1();
         const pathGenerator = geoPath().projection(projection);
 
-        const { height, width } = svgRef.current.getBoundingClientRect();
-
         const svgSelection = select(svgRef.current);
+        const pathsSelection = svgSelection.selectAll('path');
 
-        console.log({height, width, svgSelection, pathGenerator});
+        pathsSelection.data(countries.features)
+          .enter()
+          .append('path')
+            .attr('d', pathGenerator)
+            .attr('class', 'world-map__path');
       })
       .catch(error => {
         console.error(error);
@@ -38,9 +41,7 @@ const WorldMap = () => {
   }, []);
 
   return (
-    <Svg ref={svgRef}>
-
-    </Svg>
+    <Svg ref={svgRef} className="world-map"/>
   );
 };
 

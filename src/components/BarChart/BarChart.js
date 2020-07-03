@@ -31,7 +31,9 @@ const data = dataset.map(item => {
 
 const BarChart = () => {
   const { state } = useLocation();
-  const [country, setCountry] = useState(state?.country ? state.country : total.country);
+  const defaultCountry = state && data.find(({ country }) => state.country === country) ? state.country : total.country;
+
+  const [country, setCountry] = useState(defaultCountry);
   const svgRef = useRef(null);
 
   const selectCountry = event => {

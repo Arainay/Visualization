@@ -1,13 +1,21 @@
 import React, { useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { feature } from 'topojson-client';
 import { geoPath, geoNaturalEarth1 } from 'd3-geo';
 import { event, select } from 'd3-selection';
 import { zoom } from 'd3-zoom';
 import Svg from '@app/components/Svg';
+import { PAGES } from '@app/helpers';
 import './world-map.scss';
 
 const WorldMap = () => {
   const svgRef = useRef(null);
+
+  const { push } = useHistory();
+
+  const toBarChart = country => {
+    push(PAGES.BAR_CHART, { country });
+  };
 
   // todo add service
   useEffect(() => {
@@ -36,6 +44,7 @@ const WorldMap = () => {
           .append('path')
             .attr('d', pathGenerator)
             .attr('class', 'world-map__country')
+            .on('click', d => toBarChart(d.properties.name))
             .append('title')
               .text(d => d.properties.name);
 

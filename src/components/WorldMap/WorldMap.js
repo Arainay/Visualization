@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { feature } from 'topojson-client';
 import { geoPath, geoNaturalEarth1 } from 'd3-geo';
-import { select } from 'd3-selection';
+import { event, select } from 'd3-selection';
+import { zoom } from 'd3-zoom';
 import Svg from '@app/components/Svg';
 import './world-map.scss';
 
@@ -23,10 +24,11 @@ const WorldMap = () => {
         const pathGenerator = geoPath().projection(projection);
 
         const svgSelection = select(svgRef.current);
+        const boundariesSelection = svgSelection.select('#boundaries');
         const countriesSelection = svgSelection.select('#countries');
         const pathsSelection = countriesSelection.selectAll('path');
 
-        svgSelection.select('#sphere')
+        boundariesSelection.select('#sphere')
           .attr('d', pathGenerator({ type: 'Sphere' }));
 
         pathsSelection.data(countries.features)
@@ -36,6 +38,13 @@ const WorldMap = () => {
             .attr('class', 'world-map__country')
             .append('title')
               .text(d => d.properties.name);
+
+        svgSelection.call(
+          zoom()
+            .on('zoom', () => {
+              boundariesSelection.attr('transform', event.transform);
+            })
+        );
       })
       .catch(error => {
         console.error(error);
@@ -44,8 +53,10 @@ const WorldMap = () => {
 
   return (
     <Svg ref={svgRef} className="world-map">
-      <path id="sphere" className="world-map__sphere"/>
-      <g id="countries"/>
+      <g id="boundaries">
+        <path id="sphere" className="world-map__sphere"/>
+        <g id="countries"/>
+      </g>
     </Svg>
   );
 };

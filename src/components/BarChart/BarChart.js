@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { select } from 'd3-selection';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { axisBottom, axisLeft } from 'd3-axis';
@@ -29,7 +30,8 @@ const data = dataset.map(item => {
 });
 
 const BarChart = () => {
-  const [country, setCountry] = useState(total.country);
+  const { state } = useLocation();
+  const [country, setCountry] = useState(state?.country ? state.country : total.country);
   const svgRef = useRef(null);
 
   const selectCountry = event => {

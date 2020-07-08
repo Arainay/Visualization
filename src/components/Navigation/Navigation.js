@@ -65,6 +65,15 @@ const Navigation = () => {
             World Map
           </NavLink>
         </li>
+        <li className="navigation__pages-item">
+          <NavLink
+            to={PAGES.TREE}
+            activeClassName="navigation__link--active"
+            className="navigation__link"
+          >
+            Countries Hierarchy
+          </NavLink>
+        </li>
       </ul>
       <div className="navigation__active" ref={activeRef}/>
     </nav>

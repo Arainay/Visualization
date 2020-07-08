@@ -7,6 +7,7 @@ const BarChart = lazy(() => import(/* webpackPrefetch: true */ '@app/components/
 const ScatterPlot = lazy(() => import(/* webpackPrefetch: true */ '@app/components/ScatterPlot'));
 const Line = lazy(() => import(/* webpackPrefetch: true */ '@app/components/Line'));
 const WorldMap = lazy(() => import(/* webpackPrefetch: true */ '@app/components/WorldMap'));
+const CountriesHierarchy = lazy(() => import(/* webpackPrefetch: true */ '@app/components/CountriesHierarchy'));
 
 const Routes = () => (
   <Suspense fallback={<div>Loading...</div>}>
@@ -28,6 +29,9 @@ const Routes = () => (
       </Route>
       <Route path={PAGES.WORLD_MAP}>
         <WorldMap/>
+      </Route>
+      <Route path={PAGES.TREE}>
+        <CountriesHierarchy/>
       </Route>
       <Redirect to={PAGES.BAR_CHART}/>
     </Switch>

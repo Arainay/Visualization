@@ -46,14 +46,7 @@ module.exports = merge(common, {
       new OptimizeCSSAssetsPlugin({})
     ],
     splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        }
-      }
+      chunks: 'async'
     },
     runtimeChunk: {
       name: entrypoint => `runtime~${entrypoint.name}`

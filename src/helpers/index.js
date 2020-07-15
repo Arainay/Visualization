@@ -1,1 +1,1 @@
-export { PAGES } from './constants';
+export { PAGES, GITHUB_COMPONENTS_URL } from './constants';

@@ -6,3 +6,5 @@ export const PAGES = {
   WORLD_MAP: '/world-map',
   TREE: '/tree'
 };
+
+export const GITHUB_COMPONENTS_URL = 'https://raw.githubusercontent.com/Arainay/Visualization/master/src/components';

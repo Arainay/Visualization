@@ -6,6 +6,7 @@ import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
 import { transition } from 'd3-transition';
 import Svg from '@app/components/Svg';
+import { GITHUB_COMPONENTS_URL } from '@app/helpers';
 import './bar-chart.scss';
 
 const total = {
@@ -127,7 +128,7 @@ const BarChart = () => {
   };
 
   useEffect(() => {
-    fetch('https://raw.githubusercontent.com/Arainay/Visualization/master/src/components/BarChart/data/dataset.json')
+    fetch(`${GITHUB_COMPONENTS_URL}/BarChart/data/dataset.json`)
       .then(response => response.json())
       .then(data => {
         data.forEach(item => {

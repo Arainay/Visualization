@@ -7,6 +7,7 @@ import { easeLinear } from 'd3-ease';
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import Svg from '@app/components/Svg';
+import { GITHUB_COMPONENTS_URL } from '@app/helpers';
 
 const Line = () => {
   const svgRef = useRef(null);
@@ -20,9 +21,7 @@ const Line = () => {
   };
 
   useEffect(() => {
-    fetch(
-      'https://raw.githubusercontent.com/Arainay/Visualization/master/src/components/Line/data/temperature_Moscow.json'
-    )
+    fetch(`${GITHUB_COMPONENTS_URL}/Line/data/temperature_Moscow.json`)
       .then(response => response.json())
       .then(data => {
         const { height, width } = svgRef.current.getBoundingClientRect();

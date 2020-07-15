@@ -6,7 +6,6 @@ import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
 import { transition } from 'd3-transition';
 import Svg from '@app/components/Svg';
-import dataset from './data/dataset.csv';
 import './bar-chart.scss';
 
 const total = {
@@ -16,20 +15,8 @@ const total = {
   deaths: 0
 };
 
-const data = dataset.map(item => {
-  total.confirmed += item.Confirmed;
-  total.recovered += item.Recovered;
-  total.deaths += item.Deaths;
-
-  return {
-    country: item['Country/Region'],
-    confirmed: item.Confirmed,
-    recovered: item.Recovered,
-    deaths: item.Deaths
-  };
-});
-
 const BarChart = () => {
+  const [data, setData] = useState([]);
   const { state } = useLocation();
   const defaultCountry = state && data.find(({ country }) => state.country === country) ? state.country : total.country;
 
@@ -140,8 +127,28 @@ const BarChart = () => {
   };
 
   useEffect(() => {
-    draw(country !== total.country ? country : null);
+    fetch('https://raw.githubusercontent.com/Arainay/Visualization/master/src/components/BarChart/data/dataset.json')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(item => {
+          total.confirmed += item.confirmed;
+          total.recovered += item.recovered;
+          total.deaths += item.deaths;
+        });
+        setData(data);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      draw(country !== total.country ? country : null);
+    }
   });
+
+  if (data.length === 0) {
+    // todo add loading spinner
+    return null;
+  }
 
   return (
     <div style={{ display: 'grid' }}>
